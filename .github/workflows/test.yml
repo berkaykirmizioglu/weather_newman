@@ -1,4 +1,4 @@
-- uses: actions/checkout@master
+- uses: actions/checkout@main
 - uses: matt-ball/newman-action@master
   with:
     collection: weatherbit_API.postman_collection.json
