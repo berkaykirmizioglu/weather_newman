@@ -1,0 +1,5 @@
+- uses: actions/checkout@master
+- uses: matt-ball/newman-action@master
+  with:
+    collection: weatherbit_API.postman_collection.json
+    environment: weatherbit_API_globals.json
