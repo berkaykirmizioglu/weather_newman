@@ -14,4 +14,4 @@ jobs:
           environment: weatherbit_API_globals.json
           reporters: cli
       - name: Output summary to console
-          run: echo ${{ steps.run-newman.outputs.summary }}
+        run: echo ${{ steps.run-newman.outputs.summary }}
