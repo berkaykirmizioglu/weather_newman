@@ -1,13 +1,17 @@
-- name: Checkout
-  uses: actions/checkout@v1
+jobs:
+  build_and_test:
+    name: Build and test
+    runs-on: ubuntu-latest
 
-- name: Run API Tests
-  id: run-newman
-  uses: berkaykirmizioglu/weather_newman@v1
-  with:
-    collection: weatherbit_API.postman_collection.json
-    environment: weatherbit_API_globals.json
-    reporters: cli
-
-- name: Output summary to console
-  run: echo ${{ steps.run-newman.outputs.summary }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Run API Tests
+        id: run-newman
+        uses: berkaykirmizioglu/weather_newman@v1
+        with:
+          collection: weatherbit_API.postman_collection.json
+          environment: weatherbit_API_globals.json
+          reporters: cli
+      - name: Output summary to console
+          run: echo ${{ steps.run-newman.outputs.summary }}
