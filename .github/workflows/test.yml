@@ -1,28 +1,13 @@
+- name: Checkout
+  uses: actions/checkout@v1
 
+- name: Run API Tests
+  id: run-newman
+  uses: berkaykirmizioglu/weather_newman@v1
+  with:
+    collection: weatherbit_API.postman_collection.json
+    environment: weatherbit_API_globals.json
+    reporters: cli
 
-name: postman-pull-request
-on: [push, pull_request]
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
-  steps:
-    runs-on: ubuntu-latest
-  - name: Checkout Git repository
-    uses: actions/checkout@v1
-  - name: Set up Node.js
-    uses: actions/setup-node@v1
-    with:
-      node-version: ${{ matrix.node-version }}
-      registry-url: https://registry.npmjs.org/
-  - name: Install dependencies
-    run: npm install
-  - name: Install newman
-    run: npm install -g newman
-  - name: Run the API and Postman's tests
-    run: | 
-      npm run start:dev &
-      sleep 60
-      newman run "weatherbit_API.postman_collection.json" -e "weatherbit_API_globals.json"
+- name: Output summary to console
+  run: echo ${{ steps.run-newman.outputs.summary }}
