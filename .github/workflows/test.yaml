@@ -26,6 +26,9 @@ jobs:
       run: |
        newman run ./weatherbit_API.postman_collection.json -e ./weatherbit_API_globals.json -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/runreport1.html
 
+    - name: Output summary to console
+      run: echo ${{ steps.run-newman.outputs.summary }}
+
     - name: Output the run Details
       uses: actions/upload-artifact@v2
       with: 
