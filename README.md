@@ -11,4 +11,4 @@ Actions-> Workflow -> Test-Build
 5. Click and download this, you will find a **htmlreport.html** in zip file.
 
 index.html Sample:
-![Screenshot](https://github.com/berkaykirmizioglu/weather_newman/blob/main/samples/testresult.png)
+![Screenshot](https://github.com/berkaykirmizioglu/weather_newman/blob/main/testresult.png)
