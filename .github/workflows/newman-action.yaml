@@ -1,39 +1,26 @@
-name: Test-Build
+name: tests
+
 on:
   push:
     branches:
       - main
-      
+
   workflow_dispatch:
-        
+
 jobs:
-  test-api:
+  build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      
-    - name: Install Node
-      uses: actions/setup-node@v1
-      with: 
-        node-version: '10.x'
-    
-    - name: Install newman
-      run: |
-       npm install -g newman
-       npm install -g newman-reporter-htmlextra
-
-    - name: Make Directory for results
-      run: mkdir -p testResults
-
-    - name: Run POSTMAN collection
-      run: |
-       newman run ./weatherbit_API.postman_collection.json -e ./weatherbit_API_globals.json -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/runreport1.html
-
-    - name: Output summary to console
-      run: echo ${{ steps.run-newman.outputs.summary }}
-
-    - name: Output the run Details
-      uses: actions/upload-artifact@v2
-      with: 
-       name: API Test Reports
-       path: testResults
+      - uses: actions/checkout@v2
+      - name: Setup network
+        run: docker network create newman-tests
+      - name: Build the docker-compose stack
+        run: docker-compose -f docker-compose.override.yml -f docker-compose.yml up -d
+      - name: Check running containers
+        run: docker ps -a
+      - name: Check logs
+        run: docker-compose logs order-service
+      - name: Run test suite main-flow
+        run: docker-compose -f docker-compose.postman.yml up main-flow
+      - name: Run test suite cancel-flow
+        run: docker-compose -f docker-compose.postman.yml up cancel-flow
